@@ -1,0 +1,37 @@
+model GearItem {
+  id           String  @id @default(uuid())
+  name         String  @db.VarChar(255)
+  description  String  @db.Text
+  brand        String  @db.VarChar(255)
+  pricePerDay  Decimal
+  stock        Int
+  image        String
+  address      String? @db.Text
+  condition    GearCondition
+  availability Boolean @default(true)
+
+  providerId   String
+  provider     User @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  rentalOrders RentalOrder[]
+  reviews       Review[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([providerId])
+  @@index([categoryId])
+
+  @@map("gearItems")
+}
+
+enum GearCondition {
+  NEW
+  EXCELLENT
+  GOOD
+  FAIR
+  POOR
+}

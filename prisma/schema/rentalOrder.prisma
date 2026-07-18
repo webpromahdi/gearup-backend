@@ -1,0 +1,33 @@
+model RentalOrder {
+  id          String @id @default(uuid())
+  startDate   DateTime @db.Date
+  endDate     DateTime @db.Date
+  quantity    Int
+  totalAmount Decimal
+  status      RentalStatus
+
+  customerId  String
+  customer    User @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  gearItemId  String
+  gearItem    GearItem @relation(fields: [gearItemId], references: [id], onDelete: Cascade)
+
+  review      Review?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([gearItemId])
+
+  @@map("rentalOrders")
+}
+
+enum RentalStatus {
+  PLACED
+  CONFIRMED
+  PAID
+  PICKED_UP
+  RETURNED
+  CANCELLED
+}
