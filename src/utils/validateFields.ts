@@ -5,6 +5,10 @@ export const validateFields = (
   payload: Record<string, any>,
   requiredFields: string[],
 ) => {
+  if (!payload) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Request body is missing");
+  }
+
   const missingFields = requiredFields.filter((field) => !payload[field]);
 
   if (missingFields.length > 0) {
