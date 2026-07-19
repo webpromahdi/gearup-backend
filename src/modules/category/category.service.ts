@@ -77,8 +77,30 @@ const deleteCategoryFromDB = async (id: string) => {
   return null;
 };
 
+const getAllCategoriesFromDB = async () => {
+  const categories = await prisma.category.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
+  return categories;
+};
+
+const getCategoryByIdFromDB = async (id: string) => {
+  const category = await prisma.category.findUnique({
+    where: { id },
+  });
+
+  if (!category) {
+    throw new AppError(httpStatus.NOT_FOUND, "Category not found");
+  }
+
+  return category;
+};
+
 export const categoryService = {
   createCategoryIntoDB,
   updateCategoryInDB,
   deleteCategoryFromDB,
+  getAllCategoriesFromDB,
+  getCategoryByIdFromDB,
 };
