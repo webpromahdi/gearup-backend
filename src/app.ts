@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import config from "./config";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 
 const app: Application = express();
 
@@ -21,5 +22,7 @@ app.use(cookieParser());
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
+
+app.use(globalErrorHandler)
 
 export default app;
