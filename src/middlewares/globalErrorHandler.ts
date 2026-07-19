@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import { Prisma } from "../../generated/prisma/client";
+import { AppError } from "../utils/appError";
 
 export const globalErrorHandler = (
   err: any,
@@ -11,10 +12,14 @@ export const globalErrorHandler = (
   let statusCode;
   let errorMessage = err.message || "Internal Server Error";
 
-  if (err instanceof Prisma.PrismaClientValidationError) {
+  let extraMeta: Record<string, any> = {};
+
+  if (err instanceof AppError) {
     statusCode = httpStatus.BAD_REQUEST;
     errorMessage = "You have provided incorrect field type or missing fields";
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    extraMeta.code = err.code;
+    extraMeta.meta = err.meta;
     if (err.code === "P2002") {
       statusCode = httpStatus.BAD_REQUEST;
       errorMessage = "This value already exists.";
@@ -42,13 +47,15 @@ export const globalErrorHandler = (
 
   statusCode = statusCode || httpStatus.INTERNAL_SERVER_ERROR;
 
+  const errorDetails = {
+    name: err.name || "Error",
+    message: err.message || errorMessage,
+    ...extraMeta,
+  };
+
   res.status(statusCode).json({
     success: false,
     message: errorMessage,
-    errorDetails: {
-      name: err.name,
-      message: err.message,
-    },
-    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+    errorDetails,
   });
 };

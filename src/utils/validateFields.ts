@@ -1,0 +1,16 @@
+import httpStatus from "http-status";
+import { AppError } from "./appError";
+
+export const validateFields = (
+  payload: Record<string, any>,
+  requiredFields: string[],
+) => {
+  const missingFields = requiredFields.filter((field) => !payload[field]);
+
+  if (missingFields.length > 0) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `${missingFields.join(", ")} ${missingFields.length > 1 ? "are" : "is"} required`,
+    );
+  }
+};
