@@ -15,8 +15,8 @@ export const globalErrorHandler = (
   let extraMeta: Record<string, any> = {};
 
   if (err instanceof AppError) {
-    statusCode = httpStatus.BAD_REQUEST;
-    errorMessage = "You have provided incorrect field type or missing fields";
+    statusCode = err.statusCode;
+    errorMessage = err.message;
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     extraMeta.code = err.code;
     extraMeta.meta = err.meta;
