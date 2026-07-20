@@ -43,6 +43,65 @@ const createGearItemIntoDB = async (
   return gearItem;
 };
 
+const getProviderGearFromDB = async (providerId: string) => {
+  const gearItems = await prisma.gearItem.findMany({
+    where: { providerId },
+    include: { category: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return gearItems;
+};
+
+const updateGearItemInDB = async (
+  id: string,
+  providerId: string,
+  payload: Partial<TGearItemPayload>,
+) => {
+  const gearItem = await prisma.gearItem.findUnique({ where: { id } });
+
+  if (!gearItem) {
+    throw new AppError(httpStatus.NOT_FOUND, "Gear item not found");
+  }
+
+  if (gearItem.providerId !== providerId) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not authorized to update this gear item",
+    );
+  }
+
+  const updated = await prisma.gearItem.update({
+    where: { id },
+    data: payload,
+    include: { category: true },
+  });
+
+  return updated;
+};
+
+const deleteGearItemFromDB = async (id: string, providerId: string) => {
+  const gearItem = await prisma.gearItem.findUnique({ where: { id } });
+
+  if (!gearItem) {
+    throw new AppError(httpStatus.NOT_FOUND, "Gear item not found");
+  }
+
+  if (gearItem.providerId !== providerId) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not authorized to delete this gear item",
+    );
+  }
+
+  await prisma.gearItem.delete({ where: { id } });
+
+  return null;
+};
+
 export const gearItemService = {
   createGearItemIntoDB,
+  getProviderGearFromDB,
+  updateGearItemInDB,
+  deleteGearItemFromDB,
 };
