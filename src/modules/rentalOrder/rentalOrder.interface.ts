@@ -5,13 +5,6 @@ export interface IRentalOrderPayload {
   quantity: number;
 }
 
-export interface IRentalOrderPayload {
-  gearItemId: string;
-  startDate: string;
-  endDate: string;
-  quantity: number;
-}
-
 export type TOrderStatus =
   | "PLACED"
   | "CONFIRMED"

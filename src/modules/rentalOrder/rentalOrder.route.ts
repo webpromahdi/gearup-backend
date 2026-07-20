@@ -3,14 +3,31 @@ import { Role } from "../../../generated/prisma/enums";
 import { auth } from "../../middlewares/auth";
 import { rentalOrderController } from "./rentalOrder.controller";
 
+// ---------- Customer routes ----------
 const customerRouter = Router();
 customerRouter.post(
   "/",
   auth(Role.CUSTOMER),
   rentalOrderController.createRentalOrder,
 );
+customerRouter.get(
+  "/",
+  auth(Role.CUSTOMER),
+  rentalOrderController.getCustomerRentalOrders,
+);
+customerRouter.get(
+  "/:id",
+  auth(Role.CUSTOMER),
+  rentalOrderController.getCustomerRentalOrderById,
+);
+customerRouter.patch(
+  "/:id",
+  auth(Role.CUSTOMER),
+  rentalOrderController.cancelRentalOrder,
+);
 export const rentalCustomerRoutes = customerRouter;
 
+// ---------- Provider routes ----------
 const providerRouter = Router();
 providerRouter.get(
   "/",

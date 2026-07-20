@@ -117,6 +117,97 @@ const createRentalOrderIntoDB = async (
   return rentalOrder;
 };
 
+const getCustomerRentalOrdersFromDB = async (customerId: string) => {
+  const rentalOrders = await prisma.rentalOrder.findMany({
+    where: { customerId },
+    include: {
+      gearItem: {
+        include: {
+          category: true,
+          provider: { omit: { password: true } },
+        },
+      },
+      review: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return rentalOrders;
+};
+
+const getCustomerRentalOrderByIdFromDB = async (
+  id: string,
+  customerId: string,
+) => {
+  const rentalOrder = await prisma.rentalOrder.findUnique({
+    where: { id },
+    include: {
+      gearItem: {
+        include: {
+          category: true,
+          provider: { omit: { password: true } },
+        },
+      },
+      review: true,
+    },
+  });
+
+  if (!rentalOrder) {
+    throw new AppError(httpStatus.NOT_FOUND, "Rental order not found");
+  }
+
+  if (rentalOrder.customerId !== customerId) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not authorized to view this rental order",
+    );
+  }
+
+  return rentalOrder;
+};
+
+const cancelRentalOrderInDB = async (id: string, customerId: string) => {
+  const rentalOrder = await prisma.rentalOrder.findUnique({
+    where: { id },
+  });
+
+  if (!rentalOrder) {
+    throw new AppError(httpStatus.NOT_FOUND, "Rental order not found");
+  }
+
+  if (rentalOrder.customerId !== customerId) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not authorized to cancel this rental order",
+    );
+  }
+
+  const cancellableStatuses: TOrderStatus[] = ["PLACED", "CONFIRMED"];
+  if (!cancellableStatuses.includes(rentalOrder.status)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `Rental order cannot be cancelled when status is ${rentalOrder.status}`,
+    );
+  }
+
+  const updatedRentalOrder = await prisma.rentalOrder.update({
+    where: { id },
+    data: { status: "CANCELLED" },
+    include: {
+      gearItem: {
+        include: {
+          category: true,
+          provider: { omit: { password: true } },
+        },
+      },
+      customer: { omit: { password: true } },
+      review: true,
+    },
+  });
+
+  return updatedRentalOrder;
+};
+
 const getProviderOrdersFromDB = async (providerId: string) => {
   const orders = await prisma.rentalOrder.findMany({
     where: {
@@ -207,6 +298,9 @@ const updateOrderStatusInDB = async (
 
 export const rentalOrderService = {
   createRentalOrderIntoDB,
+  getCustomerRentalOrdersFromDB,
+  getCustomerRentalOrderByIdFromDB,
+  cancelRentalOrderInDB,
   getProviderOrdersFromDB,
   getProviderOrderByIdFromDB,
   updateOrderStatusInDB,

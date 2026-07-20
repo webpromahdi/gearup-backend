@@ -24,6 +24,61 @@ const createRentalOrder = catchAsync(
   },
 );
 
+const getCustomerRentalOrders = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customerId = req.user?.id as string;
+
+    const rentalOrders =
+      await rentalOrderService.getCustomerRentalOrdersFromDB(customerId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Rental orders retrieved successfully",
+      data: { rentalOrders },
+    });
+  },
+);
+
+const getCustomerRentalOrderById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customerId = req.user?.id as string;
+    const { id } = req.params;
+
+    const rentalOrder =
+      await rentalOrderService.getCustomerRentalOrderByIdFromDB(
+        id as string,
+        customerId,
+      );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Rental order retrieved successfully",
+      data: { rentalOrder },
+    });
+  },
+);
+
+const cancelRentalOrder = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customerId = req.user?.id as string;
+    const { id } = req.params;
+
+    const rentalOrder = await rentalOrderService.cancelRentalOrderInDB(
+      id as string,
+      customerId,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Rental order cancelled successfully",
+      data: { rentalOrder },
+    });
+  },
+);
+
 const getProviderOrders = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const providerId = req.user?.id as string;
@@ -79,6 +134,9 @@ const updateOrderStatus = catchAsync(
 
 export const rentalOrderController = {
   createRentalOrder,
+  getCustomerRentalOrders,
+  getCustomerRentalOrderById,
+  cancelRentalOrder,
   getProviderOrders,
   getProviderOrderById,
   updateOrderStatus,
