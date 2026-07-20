@@ -182,7 +182,7 @@ const cancelRentalOrderInDB = async (id: string, customerId: string) => {
     );
   }
 
-  const cancellableStatuses: TOrderStatus[] = ["PLACED", "CONFIRMED"];
+  const cancellableStatuses: TOrderStatus[] = ["PLACED"];
   if (!cancellableStatuses.includes(rentalOrder.status)) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
