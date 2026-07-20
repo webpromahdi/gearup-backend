@@ -10,3 +10,12 @@ export type TGearItemPayload = {
   availability?: boolean;
   categoryId: string;
 };
+
+export interface IGearQuery {
+  searchTerm?: string;
+  category?: string;
+  brand?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  availability?: string;
+}

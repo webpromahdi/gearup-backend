@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 import { catchAsync } from "../../utils/catchAsync";
 import { gearItemService } from "./gearItem.service";
 import { sendResponse } from "../../utils/sendResponse";
+import { IGearQuery } from "./gearItem.interface";
 
 const createGearItem = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -74,9 +75,40 @@ const deleteGearItem = catchAsync(
   },
 );
 
+const getAllGear = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const query = req.query as IGearQuery;
+    const gearItems = await gearItemService.getAllGearFromDB(query);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Gear items retrieved successfully",
+      data: { gearItems },
+    });
+  },
+);
+
+
+const getGearById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const gearItem = await gearItemService.getGearByIdFromDB(id as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Gear item retrieved successfully",
+      data: { gearItem },
+    });
+  },
+);
+
 export const gearItemController = {
   createGearItem,
   getProviderGear,
   updateGearItem,
   deleteGearItem,
+  getAllGear,
+  getGearById,
 };
