@@ -13,6 +13,7 @@ model RentalOrder {
   gearItem    GearItem @relation(fields: [gearItemId], references: [id], onDelete: Cascade)
 
   review      Review?
+  payments    Payment[]
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
