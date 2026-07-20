@@ -10,3 +10,21 @@ customerRouter.post(
   rentalOrderController.createRentalOrder,
 );
 export const rentalCustomerRoutes = customerRouter;
+
+const providerRouter = Router();
+providerRouter.get(
+  "/",
+  auth(Role.PROVIDER),
+  rentalOrderController.getProviderOrders,
+);
+providerRouter.get(
+  "/:id",
+  auth(Role.PROVIDER),
+  rentalOrderController.getProviderOrderById,
+);
+providerRouter.patch(
+  "/:id",
+  auth(Role.PROVIDER),
+  rentalOrderController.updateOrderStatus,
+);
+export const rentalProviderRoutes = providerRouter;

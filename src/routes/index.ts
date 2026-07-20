@@ -5,7 +5,10 @@ import {
   gearPublicRoutes,
   gearProviderRoutes,
 } from "../modules/gearItem/gearItem.route";
-import { rentalCustomerRoutes } from "../modules/rentalOrder/rentalOrder.route";
+import {
+  rentalCustomerRoutes,
+  rentalProviderRoutes,
+} from "../modules/rentalOrder/rentalOrder.route";
 
 const router = Router();
 
@@ -15,6 +18,7 @@ const moduleRoutes = [
   { path: "/gear", route: gearPublicRoutes },
   { path: "/provider/gear", route: gearProviderRoutes },
   { path: "/rentals", route: rentalCustomerRoutes },
+  { path: "/provider/orders", route: rentalProviderRoutes },
 ];
 
 moduleRoutes.forEach((r) => router.use(r.path, r.route));

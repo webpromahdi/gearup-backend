@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { rentalOrderService } from "./rentalOrder.service";
+import { TOrderStatus } from "./rentalOrder.interface";
 
 const createRentalOrder = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -23,6 +24,62 @@ const createRentalOrder = catchAsync(
   },
 );
 
+const getProviderOrders = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const providerId = req.user?.id as string;
+    const orders = await rentalOrderService.getProviderOrdersFromDB(providerId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Provider orders retrieved successfully",
+      data: { orders },
+    });
+  },
+);
+
+const getProviderOrderById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const providerId = req.user?.id as string;
+    const { id } = req.params;
+    const order = await rentalOrderService.getProviderOrderByIdFromDB(
+      id as string,
+      providerId,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Order retrieved successfully",
+      data: { order },
+    });
+  },
+);
+
+const updateOrderStatus = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const providerId = req.user?.id as string;
+    const { id } = req.params;
+    const { status } = req.body as { status: TOrderStatus };
+
+    const order = await rentalOrderService.updateOrderStatusInDB(
+      id as string,
+      providerId,
+      status,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Order status updated successfully",
+      data: { order },
+    });
+  },
+);
+
 export const rentalOrderController = {
   createRentalOrder,
+  getProviderOrders,
+  getProviderOrderById,
+  updateOrderStatus,
 };

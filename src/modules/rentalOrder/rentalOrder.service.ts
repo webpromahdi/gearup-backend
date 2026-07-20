@@ -3,6 +3,7 @@ import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utils/appError";
 import { validateFields } from "../../utils/validateFields";
 import { IRentalOrderPayload } from "./rentalOrder.interface";
+import { TOrderStatus } from "./rentalOrder.interface";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
@@ -116,6 +117,97 @@ const createRentalOrderIntoDB = async (
   return rentalOrder;
 };
 
+const getProviderOrdersFromDB = async (providerId: string) => {
+  const orders = await prisma.rentalOrder.findMany({
+    where: {
+      gearItem: { providerId },
+    },
+    include: {
+      gearItem: true,
+      customer: { omit: { password: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return orders;
+};
+
+const getProviderOrderByIdFromDB = async (id: string, providerId: string) => {
+  const order = await prisma.rentalOrder.findUnique({
+    where: { id },
+    include: {
+      gearItem: true,
+      customer: { omit: { password: true } },
+      review: true,
+    },
+  });
+
+  if (!order) {
+    throw new AppError(httpStatus.NOT_FOUND, "Rental order not found");
+  }
+
+  if (order.gearItem.providerId !== providerId) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not authorized to view this order",
+    );
+  }
+
+  return order;
+};
+
+const updateOrderStatusInDB = async (
+  id: string,
+  providerId: string,
+  status: TOrderStatus,
+) => {
+  if (!status) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Status is required");
+  }
+
+  const order = await prisma.rentalOrder.findUnique({
+    where: { id },
+    include: { gearItem: true },
+  });
+
+  if (!order) {
+    throw new AppError(httpStatus.NOT_FOUND, "Rental order not found");
+  }
+
+  if (order.gearItem.providerId !== providerId) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You are not authorized to update this order",
+    );
+  }
+
+  const allowedStatuses: TOrderStatus[] = [
+    "CONFIRMED",
+    "PICKED_UP",
+    "RETURNED",
+  ];
+  if (!allowedStatuses.includes(status)) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `Invalid status. Provider can only set: ${allowedStatuses.join(", ")}`,
+    );
+  }
+
+  const updated = await prisma.rentalOrder.update({
+    where: { id },
+    data: { status },
+    include: {
+      gearItem: true,
+      customer: { omit: { password: true } },
+    },
+  });
+
+  return updated;
+};
+
 export const rentalOrderService = {
   createRentalOrderIntoDB,
+  getProviderOrdersFromDB,
+  getProviderOrderByIdFromDB,
+  updateOrderStatusInDB,
 };
