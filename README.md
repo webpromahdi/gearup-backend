@@ -12,11 +12,11 @@
 
 ### 🔑 Authentication
 
-| Method | Endpoint             | Access  | Description                           |
-| ------ | -------------------- | ------- | ------------------------------------- |
-| POST   | `/api/auth/register` | Public  | Register new user (customer/provider) |
-| POST   | `/api/auth/login`    | Public  | Login user, return JWT tokens         |
-| GET    | `/api/auth/me`       | Auth    | Get current authenticated user        |
+| Method | Endpoint             | Access | Description                           |
+| ------ | -------------------- | ------ | ------------------------------------- |
+| POST   | `/api/auth/register` | Public | Register new user (customer/provider) |
+| POST   | `/api/auth/login`    | Public | Login user, return JWT tokens         |
+| GET    | `/api/auth/me`       | Auth   | Get current authenticated user        |
 
 ---
 
@@ -75,21 +75,21 @@
 
 ### 💳 Payments (Stripe)
 
-| Method | Endpoint                | Access         | Description                                     |
-| ------ | ----------------------- | -------------- | ----------------------------------------------- |
+| Method | Endpoint                | Access         | Description                                       |
+| ------ | ----------------------- | -------------- | ------------------------------------------------- |
 | POST   | `/api/payments/create`  | Customer       | Create Stripe Checkout Session for a rental order |
 | POST   | `/api/payments/webhook` | Stripe Webhook | Verify Stripe webhook and mark paid orders        |
-| GET    | `/api/payments`         | Customer       | Get user's payment history                      |
-| GET    | `/api/payments/:id`     | Customer       | Get single payment details                      |
+| GET    | `/api/payments`         | Customer       | Get user's payment history                        |
+| GET    | `/api/payments/:id`     | Customer       | Get single payment details                        |
 
 ---
 
 ### ⭐ Reviews
 
-| Method | Endpoint           | Access   | Description                            |
-| ------ | ------------------ | -------- | -------------------------------------- |
-| POST   | `/api/reviews`     | Customer | Create review (after gear is returned) |
-| GET    | `/api/reviews`     | Customer | Get customer's reviews                     |
+| Method | Endpoint       | Access   | Description                            |
+| ------ | -------------- | -------- | -------------------------------------- |
+| POST   | `/api/reviews` | Customer | Create review (after gear is returned) |
+| GET    | `/api/reviews` | Customer | Get customer's reviews                 |
 
 ---
 

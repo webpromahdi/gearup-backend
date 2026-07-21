@@ -75,9 +75,13 @@ const loginUser = async (payload: TLoginUser) => {
 
   validateFields(payload, ["email", "password"]);
 
-  const user = await prisma.user.findUniqueOrThrow({
+  const user = await prisma.user.findUnique({
     where: { email },
   });
+
+  if (!user) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid email or password");
+  }
 
   if (user.status === "SUSPENDED") {
     throw new AppError(

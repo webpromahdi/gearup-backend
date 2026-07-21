@@ -17,6 +17,9 @@ export const globalErrorHandler = (
   if (err instanceof AppError) {
     statusCode = err.statusCode;
     errorMessage = err.message;
+  } else if (err instanceof SyntaxError && "body" in err) {
+    statusCode = httpStatus.BAD_REQUEST;
+    errorMessage = "Invalid JSON payload";
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     extraMeta.code = err.code;
     extraMeta.meta = err.meta;
@@ -30,7 +33,13 @@ export const globalErrorHandler = (
       statusCode = httpStatus.NOT_FOUND;
       errorMessage =
         "An operation failed because it depends on one or more records that were required but not found.";
+    } else if (err.code === "P2011") {
+      statusCode = httpStatus.BAD_REQUEST;
+      errorMessage = "Required field cannot be null";
     }
+  } else if (err instanceof Prisma.PrismaClientValidationError) {
+    statusCode = httpStatus.BAD_REQUEST;
+    errorMessage = "Invalid request data";
   } else if (err instanceof Prisma.PrismaClientInitializationError) {
     if (err.errorCode === "P1000") {
       statusCode = httpStatus.UNAUTHORIZED;
