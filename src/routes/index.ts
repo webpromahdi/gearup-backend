@@ -9,6 +9,7 @@ import {
   rentalCustomerRoutes,
   rentalProviderRoutes,
 } from "../modules/rentalOrder/rentalOrder.route";
+import { paymentRoutes } from "../modules/payment/payment.route";
 
 const router = Router();
 
@@ -19,6 +20,7 @@ const moduleRoutes = [
   { path: "/provider/gear", route: gearProviderRoutes },
   { path: "/rentals", route: rentalCustomerRoutes },
   { path: "/provider/orders", route: rentalProviderRoutes },
+  { path: "/payments", route: paymentRoutes },
 ];
 
 moduleRoutes.forEach((r) => router.use(r.path, r.route));

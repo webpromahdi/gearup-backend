@@ -77,8 +77,8 @@
 
 | Method | Endpoint                | Access         | Description                                     |
 | ------ | ----------------------- | -------------- | ----------------------------------------------- |
-| POST   | `/api/payments/create`  | Customer       | Create Stripe payment intent for a rental order |
-| POST   | `/api/payments/confirm` | Stripe Webhook | Confirm/verify payment via Stripe webhook       |
+| POST   | `/api/payments/create`  | Customer       | Create Stripe Checkout Session for a rental order |
+| POST   | `/api/payments/webhook` | Stripe Webhook | Verify Stripe webhook and mark paid orders        |
 | GET    | `/api/payments`         | Customer       | Get user's payment history                      |
 | GET    | `/api/payments/:id`     | Customer       | Get single payment details                      |
 
