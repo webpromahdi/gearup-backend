@@ -22,7 +22,6 @@ const getAllUsersFromDB = async () => {
 
 const updateUserStatusIntoDB = async (
   id: string,
-  adminId: string,
   payload: IUpdateUserStatusPayload,
 ) => {
   validateFields(payload, ["status"]);
@@ -32,13 +31,6 @@ const updateUserStatusIntoDB = async (
     throw new AppError(
       httpStatus.BAD_REQUEST,
       `Invalid status. Allowed statuses are: ${allowedStatuses.join(", ")}`,
-    );
-  }
-
-  if (id === adminId && payload.status === "SUSPENDED") {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "You cannot suspend your own account",
     );
   }
 
@@ -62,7 +54,46 @@ const updateUserStatusIntoDB = async (
   return updatedUser;
 };
 
+const getAllGearListingsFromDB = async () => {
+  const gearItems = await prisma.gearItem.findMany({
+    include: {
+      category: true,
+      provider: { omit: { password: true } },
+      reviews: {
+        include: {
+          customer: { omit: { password: true } },
+        },
+        orderBy: { createdAt: "desc" },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return gearItems;
+};
+
+const getAllRentalOrdersFromDB = async () => {
+  const rentalOrders = await prisma.rentalOrder.findMany({
+    include: {
+      customer: { omit: { password: true } },
+      gearItem: {
+        include: {
+          category: true,
+          provider: { omit: { password: true } },
+        },
+      },
+      payments: true,
+      review: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return rentalOrders;
+};
+
 export const adminService = {
   getAllUsersFromDB,
   updateUserStatusIntoDB,
+  getAllGearListingsFromDB,
+  getAllRentalOrdersFromDB,
 };

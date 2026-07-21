@@ -19,13 +19,11 @@ const getAllUsers = catchAsync(
 
 const updateUserStatus = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const adminId = req.user?.id as string;
     const { id } = req.params;
     const payload = req.body;
 
     const user = await adminService.updateUserStatusIntoDB(
       id as string,
-      adminId,
       payload,
     );
 
@@ -38,7 +36,35 @@ const updateUserStatus = catchAsync(
   },
 );
 
+const getAllGearListings = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const gearItems = await adminService.getAllGearListingsFromDB();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Gear listings retrieved successfully",
+      data: { gearItems },
+    });
+  },
+);
+
+const getAllRentalOrders = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const rentalOrders = await adminService.getAllRentalOrdersFromDB();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Rental orders retrieved successfully",
+      data: { rentalOrders },
+    });
+  },
+);
+
 export const adminController = {
   getAllUsers,
   updateUserStatus,
+  getAllGearListings,
+  getAllRentalOrders,
 };
