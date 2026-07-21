@@ -1,7 +1,7 @@
 model Review {
   id            String @id @default(uuid())
   rating        Int
-  comment       String @db.Text
+  comment       String? @db.Text
 
   customerId    String
   customer      User @relation(fields: [customerId], references: [id], onDelete: Cascade)

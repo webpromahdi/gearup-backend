@@ -89,7 +89,7 @@
 | Method | Endpoint           | Access   | Description                            |
 | ------ | ------------------ | -------- | -------------------------------------- |
 | POST   | `/api/reviews`     | Customer | Create review (after gear is returned) |
-| GET    | `/api/reviews/:id` | Public   | Get reviews for a specific gear item   |
+| GET    | `/api/reviews`     | Customer | Get customer's reviews                     |
 
 ---
 
