@@ -1,9 +1,9 @@
 import httpStatus from "http-status";
-import { prisma } from "../../lib/prisma";
-import { AppError } from "../../utils/appError";
-import { validateFields } from "../../utils/validateFields";
-import { IRentalOrderPayload } from "./rentalOrder.interface";
-import { TOrderStatus } from "./rentalOrder.interface";
+import { prisma } from "../../lib/prisma.js";
+import { AppError } from "../../utils/appError.js";
+import { validateFields } from "../../utils/validateFields.js";
+import { IRentalOrderPayload } from "./rentalOrder.interface.js";
+import { TOrderStatus } from "./rentalOrder.interface.js";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 

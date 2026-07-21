@@ -1,9 +1,9 @@
 import httpStatus from "http-status";
-import { prisma } from "../../lib/prisma";
-import { AppError } from "../../utils/appError";
-import { validateFields } from "../../utils/validateFields";
-import { IGearQuery, TGearItemPayload } from "./gearItem.interface";
-import { Prisma } from "../../../generated/prisma/client";
+import { prisma } from "../../lib/prisma.js";
+import { AppError } from "../../utils/appError.js";
+import { validateFields } from "../../utils/validateFields.js";
+import { IGearQuery, TGearItemPayload } from "./gearItem.interface.js";
+import { Prisma } from "../../../generated/prisma/client.js";
 
 const allowedGearConditions = ["NEW", "EXCELLENT", "GOOD", "FAIR", "POOR"];
 

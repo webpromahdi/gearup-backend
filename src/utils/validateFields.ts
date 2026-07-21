@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { AppError } from "./appError";
+import { AppError } from "./appError.js";
 
 export const validateFields = (
   payload: Record<string, any>,

@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
-import { catchAsync } from "../../utils/catchAsync";
-import { gearItemService } from "./gearItem.service";
-import { sendResponse } from "../../utils/sendResponse";
-import { IGearQuery } from "./gearItem.interface";
+import { catchAsync } from "../../utils/catchAsync.js";
+import { gearItemService } from "./gearItem.service.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import { IGearQuery } from "./gearItem.interface.js";
 
 const createGearItem = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -88,7 +88,6 @@ const getAllGear = catchAsync(
     });
   },
 );
-
 
 const getGearById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

@@ -1,9 +1,9 @@
 import httpStatus from "http-status";
-import { UserStatus } from "../../../generated/prisma/enums";
-import { prisma } from "../../lib/prisma";
-import { AppError } from "../../utils/appError";
-import { validateFields } from "../../utils/validateFields";
-import { IUpdateUserStatusPayload } from "./admin.interface";
+import { UserStatus } from "../../../generated/prisma/enums.js";
+import { prisma } from "../../lib/prisma.js";
+import { AppError } from "../../utils/appError.js";
+import { validateFields } from "../../utils/validateFields.js";
+import { IUpdateUserStatusPayload } from "./admin.interface.js";
 
 const getAllUsersFromDB = async () => {
   const users = await prisma.user.findMany({

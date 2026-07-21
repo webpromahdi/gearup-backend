@@ -1,12 +1,12 @@
 import bcrypt from "bcryptjs";
 import httpStatus from "http-status";
-import config from "../../config";
-import { TLoginUser, TRegisterPayload } from "./auth.interface";
-import { prisma } from "../../lib/prisma";
-import { jwtUtils } from "../../utils/jwt";
+import config from "../../config/index.js";
+import { TLoginUser, TRegisterPayload } from "./auth.interface.js";
+import { prisma } from "../../lib/prisma.js";
+import { jwtUtils } from "../../utils/jwt.js";
 import { JwtPayload, SignOptions } from "jsonwebtoken";
-import { AppError } from "../../utils/appError";
-import { validateFields } from "../../utils/validateFields";
+import { AppError } from "../../utils/appError.js";
+import { validateFields } from "../../utils/validateFields.js";
 
 const registerUserIntoDB = async (payload: TRegisterPayload) => {
   const { name, email, password, role, phone, address, profileImage, bio } =

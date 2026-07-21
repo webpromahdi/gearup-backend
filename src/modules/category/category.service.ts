@@ -1,8 +1,8 @@
 import httpStatus from "http-status";
-import { prisma } from "../../lib/prisma";
-import { AppError } from "../../utils/appError";
-import { validateFields } from "../../utils/validateFields";
-import { TCategoryPayload } from "./category.interface";
+import { prisma } from "../../lib/prisma.js";
+import { AppError } from "../../utils/appError.js";
+import { validateFields } from "../../utils/validateFields.js";
+import { TCategoryPayload } from "./category.interface.js";
 
 const createCategoryIntoDB = async (payload: TCategoryPayload) => {
   const { name, description } = payload;
@@ -10,7 +10,7 @@ const createCategoryIntoDB = async (payload: TCategoryPayload) => {
 
   const isExist = await prisma.category.findUnique({
     where: { name },
-   });
+  });
 
   if (isExist) {
     throw new AppError(

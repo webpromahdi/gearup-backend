@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
-import { catchAsync } from "../../utils/catchAsync";
-import { categoryService } from "./category.service";
-import { sendResponse } from "../../utils/sendResponse";
+import { catchAsync } from "../../utils/catchAsync.js";
+import { categoryService } from "./category.service.js";
+import { sendResponse } from "../../utils/sendResponse.js";
 
 const createCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -22,7 +22,10 @@ const updateCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const payload = req.body;
-    const category = await categoryService.updateCategoryInDB(id as string, payload);
+    const category = await categoryService.updateCategoryInDB(
+      id as string,
+      payload,
+    );
 
     sendResponse(res, {
       success: true,

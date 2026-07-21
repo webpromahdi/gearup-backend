@@ -1,8 +1,8 @@
 import httpStatus from "http-status";
-import { prisma } from "../../lib/prisma";
-import { AppError } from "../../utils/appError";
-import { validateFields } from "../../utils/validateFields";
-import { ICreateReviewPayload } from "./review.interface";
+import { prisma } from "../../lib/prisma.js";
+import { AppError } from "../../utils/appError.js";
+import { validateFields } from "../../utils/validateFields.js";
+import { ICreateReviewPayload } from "./review.interface.js";
 
 const createReviewIntoDB = async (
   customerId: string,

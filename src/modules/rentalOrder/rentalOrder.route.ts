@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { Role } from "../../../generated/prisma/enums";
-import { auth } from "../../middlewares/auth";
-import { rentalOrderController } from "./rentalOrder.controller";
+import { Role } from "../../../generated/prisma/enums.js";
+import { auth } from "../../middlewares/auth.js";
+import { rentalOrderController } from "./rentalOrder.controller.js";
 
 // ---------- Customer routes ----------
 const customerRouter = Router();

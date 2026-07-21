@@ -1,11 +1,11 @@
 import httpStatus from "http-status";
 import Stripe from "stripe";
-import config from "../../config";
-import { prisma } from "../../lib/prisma";
-import { stripe } from "../../lib/stripe";
-import { AppError } from "../../utils/appError";
-import { validateFields } from "../../utils/validateFields";
-import { ICreatePaymentPayload } from "./payment.interface";
+import config from "../../config/index.js";
+import { prisma } from "../../lib/prisma.js";
+import { stripe } from "../../lib/stripe.js";
+import { AppError } from "../../utils/appError.js";
+import { validateFields } from "../../utils/validateFields.js";
+import { ICreatePaymentPayload } from "./payment.interface.js";
 
 const createCheckoutSessionIntoDB = async (
   customerId: string,
