@@ -57,6 +57,7 @@ export const globalErrorHandler = (
   statusCode = statusCode || httpStatus.INTERNAL_SERVER_ERROR;
 
   const errorDetails = {
+    statusCode,
     name: err.name || "Error",
     message: err.message || errorMessage,
     ...extraMeta,
