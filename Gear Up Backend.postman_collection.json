@@ -1,0 +1,1001 @@
+{
+  "info": {
+    "_postman_id": "e2c7aefa-8c2a-4662-88e8-12be8306fd86",
+    "name": "Gear Up Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36172995"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "//Customer\r\n// {\r\n//   \"name\": \"Test User 3\",\r\n//   \"email\": \"testuser3@example.com\",\r\n//   \"password\": \"Test@1234\",\r\n//   \"role\": \"CUSTOMER\",\r\n//   \"phone\": \"01756781234\",\r\n//   \"address\": \"Mirpur, Dhaka\",\r\n//   \"profileImage\": \"https://i.pravatar.cc/150?img=15\",\r\n//   \"bio\": \"Enjoy weekend hiking and water sports.\"\r\n// }\r\n\r\n// Provider\r\n// {\r\n//   \"name\": \"Test User 4\",\r\n//   \"email\": \"testuser4@example.com\",\r\n//   \"password\": \"Test@1234\",\r\n//   \"role\": \"PROVIDER\",\r\n//   \"phone\": \"01823456789\",\r\n//   \"address\": \"Bashundhara, Dhaka\",\r\n//   \"profileImage\": \"https://i.pravatar.cc/150?img=45\",\r\n//   \"bio\": \"Providing quality camping and cycling gear across Dhaka.\"\r\n// }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/auth/register",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "//customer\r\n// {\r\n//     \"email\": \"testuser3@example.com\",\r\n//     \"password\": \"Test@1234\"\r\n// }\r\n\r\n//provider\r\n{\r\n  \"email\": \"testuser3@example.com\",\r\n  \"password\": \"Test@1234\"\r\n}\r\n\r\n//admin\r\n// {\r\n//     \"email\": \"admin@gearup.com\",\r\n//     \"password\": \"Test@1234\"\r\n// }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/auth/refresh-token",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh-token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Profile",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/auth/me",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Fitness\",\r\n  \"description\": \"Dumbbells, yoga mats, and equipment for home and outdoor workouts\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/categories",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Fitness (Update)\",\r\n  \"description\": \"Dumbbells, yoga mats, and equipment for home and outdoor workouts\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/categories/851c3361-8c26-489d-8e61-b2f1879a6f75",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "851c3361-8c26-489d-8e61-b2f1879a6f75"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/categories/d6c6e7c7-8274-4927-9b51-1d491753577c",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "d6c6e7c7-8274-4927-9b51-1d491753577c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/categories/d6c6e7c7-8274-4927-9b51-1d491753577c",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "d6c6e7c7-8274-4927-9b51-1d491753577c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Categories",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/categories",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "GearItems",
+      "item": [
+        {
+          "name": "Create Gear (Provider)",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Adjustable Dumbbell Set 20kg\",\r\n  \"description\": \"Space-saving adjustable dumbbells, perfect for home workouts\",\r\n  \"brand\": \"Bowflex\",\r\n  \"pricePerDay\": 6.00,\r\n  \"stock\": 7,\r\n  \"image\": \"https://example.com/bowflex-dumbbell-set.jpg\",\r\n  \"condition\": \"GOOD\",\r\n  \"categoryId\": \"\",\r\n  \"address\": \"Mirpur, Dhaka\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/provider/gear",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "provider",
+                "gear"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Gears (Provider)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/provider/gear",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "provider",
+                "gear"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Gear (Provider)",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/provider/gear/c8176366-733b-48a5-a826-1055b3a345f4",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "provider",
+                "gear",
+                "c8176366-733b-48a5-a826-1055b3a345f4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Gear (Public)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/gear",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "gear"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Gear (Public)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/gear/c8176366-733b-48a5-a826-1055b3a345f4",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "gear",
+                "c8176366-733b-48a5-a826-1055b3a345f4"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rental Order",
+      "item": [
+        {
+          "name": "Create Rental Order (Customer)",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"gearItemId\": \"\",\r\n    \"startDate\": \"2026-08-05\",\r\n    \"endDate\": \"2026-08-07\",\r\n    \"quantity\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/rentals",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Rental Orders (Customer)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/rentals",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Rental Orders (Customer)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/rentals/64f855c8-3118-40c7-9819-9be2abc95da4",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals",
+                "64f855c8-3118-40c7-9819-9be2abc95da4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Rental Order (Customer)",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/rentals/64f855c8-3118-40c7-9819-9be2abc95da4",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals",
+                "64f855c8-3118-40c7-9819-9be2abc95da4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Provider Orders",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/provider/orders",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "provider",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Provider Order",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/provider/orders/174083c9-7a68-4ad0-b63f-c78d1cda8c11",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "provider",
+                "orders",
+                "174083c9-7a68-4ad0-b63f-c78d1cda8c11"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order (Provider )",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/provider/orders/64f855c8-3118-40c7-9819-9be2abc95da4",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "provider",
+                "orders",
+                "64f855c8-3118-40c7-9819-9be2abc95da4"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "Make Payment",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rentalOrderId\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/payments/create",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payments",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/payments",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Payment",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/payments/27212d35-cc23-40cc-b6b3-1106dbf1cf55",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "27212d35-cc23-40cc-b6b3-1106dbf1cf55"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "item": [
+        {
+          "name": "Give Review",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rentalOrderId\": \"\",\r\n    \"rating\": 5,\r\n    \"comment\": \"Excellent dumbbell set, very sturdy and easy to adjust. Highly recommend for home workouts!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/reviews",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reviews",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/reviews",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/admin/users",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Status",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"SUSPENDED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/admin/users/74e0cdea-1443-406f-9161-f3cdbe11edbe",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "74e0cdea-1443-406f-9161-f3cdbe11edbe"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Gear Listings",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/admin/gear",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "gear"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Rental Orders",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-azure.vercel.app/api/admin/rentals",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-azure",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "rentals"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
