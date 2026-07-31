@@ -69,8 +69,12 @@ const createCheckoutSessionIntoDB = async (
     payment_method_types: ["card"],
     customer_email: rentalOrder.customer.email,
     client_reference_id: rentalOrder.id,
-    success_url: `${config.app_url}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${config.app_url}/payment/cancel?rentalOrderId=${rentalOrder.id}`,
+    success_url: payload.successUrl
+      ? `${payload.successUrl}?session_id={CHECKOUT_SESSION_ID}`
+      : `${config.app_url}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: payload.cancelUrl
+      ? `${payload.cancelUrl}?rentalOrderId=${rentalOrder.id}`
+      : `${config.app_url}/payment/cancel?rentalOrderId=${rentalOrder.id}`,
     line_items: [
       {
         price_data: {
