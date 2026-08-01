@@ -35,7 +35,21 @@ const getCustomerReviews = catchAsync(
   },
 );
 
+const getAllPublicReviews = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const reviews = await reviewService.getAllPublicReviewsFromDB();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Public reviews retrieved successfully",
+      data: { reviews },
+    });
+  },
+);
+
 export const reviewController = {
   createReview,
   getCustomerReviews,
+  getAllPublicReviews,
 };
