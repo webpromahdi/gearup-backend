@@ -233,7 +233,14 @@ const getAllGearFromDB = async (query: IGearQuery) => {
     where: {
       AND: andConditions,
     },
-    include: { category: true },
+    include: {
+      category: true,
+      provider: { omit: { password: true } },
+      reviews: {
+        include: { customer: { omit: { password: true } } },
+        orderBy: { createdAt: "desc" },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 
