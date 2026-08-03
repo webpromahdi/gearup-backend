@@ -267,6 +267,22 @@ const getGearByIdFromDB = async (id: string) => {
   return gearItem;
 };
 
+const getPlatformStatsFromDB = async () => {
+  const [gearCount, customerCount, providerCount, categoryCount] = await Promise.all([
+    prisma.gearItem.count(),
+    prisma.user.count({ where: { role: "CUSTOMER" } }),
+    prisma.user.count({ where: { role: "PROVIDER" } }),
+    prisma.category.count(),
+  ]);
+
+  return {
+    gearCount,
+    customerCount,
+    providerCount,
+    categoryCount,
+  };
+};
+
 export const gearItemService = {
   createGearItemIntoDB,
   getProviderGearFromDB,
@@ -274,4 +290,5 @@ export const gearItemService = {
   deleteGearItemFromDB,
   getAllGearFromDB,
   getGearByIdFromDB,
+  getPlatformStatsFromDB,
 };

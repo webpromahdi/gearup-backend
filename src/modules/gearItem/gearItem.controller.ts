@@ -103,6 +103,19 @@ const getGearById = catchAsync(
   },
 );
 
+const getPlatformStats = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const stats = await gearItemService.getPlatformStatsFromDB();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Platform stats retrieved successfully",
+      data: stats,
+    });
+  },
+);
+
 export const gearItemController = {
   createGearItem,
   getProviderGear,
@@ -110,4 +123,5 @@ export const gearItemController = {
   deleteGearItem,
   getAllGear,
   getGearById,
+  getPlatformStats,
 };

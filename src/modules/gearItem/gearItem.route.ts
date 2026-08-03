@@ -5,6 +5,7 @@ import { gearItemController } from "./gearItem.controller.js";
 
 const gearPublicRouter = Router();
 gearPublicRouter.get("/", gearItemController.getAllGear);
+gearPublicRouter.get("/meta/stats", gearItemController.getPlatformStats);
 gearPublicRouter.get("/:id", gearItemController.getGearById);
 export const gearPublicRoutes = gearPublicRouter;
 

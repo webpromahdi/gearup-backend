@@ -25,7 +25,7 @@ A robust backend service for GearUp, a platform connecting outdoor enthusiasts t
 - **Admin APIs**: Oversee users, gear listings, and system-wide rental activities.
 - **Review System**: Customers can rate and review gear after returning.
 - **Global Error Handling**: Standardized error responses across all endpoints.
-- **Validation**: Strict request payload validation using middleware.
+- **Validation**: Strict request payload validation in the service layer.
 - **TypeScript**: Statically typed code for better developer experience and maintainability.
 
 ---
@@ -37,7 +37,7 @@ A robust backend service for GearUp, a platform connecting outdoor enthusiasts t
 **ORM**: Prisma  
 **Authentication**: JWT, bcryptjs  
 **Payment**: Stripe  
-**Runtime**: Node.js (`tsx` for dev, `node` for prod)  
+**Runtime**: Node.js (`tsx` for dev, `node` for prod)
 
 ---
 
@@ -53,7 +53,7 @@ A robust backend service for GearUp, a platform connecting outdoor enthusiasts t
 src/
 ├── config/              # Environment configurations
 ├── lib/                 # Core libraries and adapters
-├── middlewares/         # Global middlewares (Auth, Validation, Error Handling)
+├── middlewares/         # Global middlewares (Auth and Error Handling)
 ├── modules/             # Feature-based modular architecture
 │   ├── admin/           # Admin operations
 │   ├── auth/            # Authentication logic
@@ -73,43 +73,52 @@ src/
 ## 🚀 Installation
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/webpromahdi/gearup-backend.git
 cd gearup-backend
 ```
 
 ### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Setup Environment Variables
+
 Create a `.env` file in the root directory and configure the variables (see the Environment Variables section below).
+
 ```bash
 cp .env.example .env
 ```
 
 ### 4. Generate Prisma Client
+
 ```bash
 npx prisma generate
 ```
 
 ### 5. Run Database Migrations
+
 ```bash
 npx prisma migrate dev
 ```
 
 ### 6. Run Development Server
+
 ```bash
 npm run dev
 ```
 
 ### 7. Build for Production
+
 ```bash
 npm run build
 ```
 
 ### 8. Run Production Server
+
 ```bash
 npm start
 ```
@@ -118,21 +127,20 @@ npm start
 
 ## ⚙️ Environment Variables
 
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/db` |
-| `DIRECT_URL` | Direct DB connection string for Prisma | `postgresql://user:pass@localhost:5432/db` |
-| `PORT` | Application port | `5000` |
-| `APP_URL` | Frontend URL for CORS | `http://localhost:3000` |
-| `BCRYPT_SALT_ROUNDS`| Salt rounds for password hashing | `10` |
-| `JWT_ACCESS_SECRET` | Secret key for access tokens | `your_jwt_access_secret` |
-| `JWT_REFRESH_SECRET`| Secret key for refresh tokens | `your_jwt_refresh_secret` |
-| `JWT_ACCESS_EXPIRES_IN` | Access token expiry | `1d` |
-| `JWT_REFRESH_EXPIRES_IN`| Refresh token expiry | `7d` |
-| `STRIPE_PRODUCT_PRICE_ID` | Default Stripe product ID | `price_1xyz...` |
-| `STRIPE_SECRET_KEY` | Stripe secret key | `sk_test_...` |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret | `whsec_...` |
-| `STRIPE_CURRENCY` | Currency for payments | `usd` |
+| Variable                  | Description                            | Example                                    |
+| :------------------------ | :------------------------------------- | :----------------------------------------- |
+| `DATABASE_URL`            | PostgreSQL connection string           | `postgresql://user:pass@localhost:5432/db` |
+| `DIRECT_URL`              | Direct DB connection string for Prisma | `postgresql://user:pass@localhost:5432/db` |
+| `PORT`                    | Application port                       | `5000`                                     |
+| `APP_URL`                 | Frontend URL for CORS                  | `http://localhost:3000`                    |
+| `BCRYPT_SALT_ROUNDS`      | Salt rounds for password hashing       | `10`                                       |
+| `JWT_ACCESS_SECRET`       | Secret key for access tokens           | `your_jwt_access_secret`                   |
+| `JWT_REFRESH_SECRET`      | Secret key for refresh tokens          | `your_jwt_refresh_secret`                  |
+| `JWT_ACCESS_EXPIRES_IN`   | Access token expiry                    | `1d`                                       |
+| `JWT_REFRESH_EXPIRES_IN`  | Refresh token expiry                   | `7d`                                       |
+| `STRIPE_SECRET_KEY`       | Stripe secret key                      | `sk_test_...`                              |
+| `STRIPE_WEBHOOK_SECRET`   | Stripe webhook signing secret          | `whsec_...`                                |
+| `STRIPE_CURRENCY`         | Currency for payments (defaults to BDT) | `bdt`                                     |
 
 ---
 
@@ -142,6 +150,7 @@ npm start
 - `npm run build`: Generates the Prisma client and compiles TypeScript to JavaScript.
 - `npm start`: Runs the compiled production build from `dist/src/server.js`.
 - `npm run postinstall`: Automatically generates Prisma client after package installation.
+- `npm test`: Runs the test script (no automated tests are configured yet).
 
 ---
 
@@ -153,11 +162,12 @@ npm start
 
 ### 🔑 Authentication
 
-| Method | Endpoint             | Access | Description                           |
-| ------ | -------------------- | ------ | ------------------------------------- |
-| POST   | `/api/auth/register` | Public | Register new user (customer/provider) |
-| POST   | `/api/auth/login`    | Public | Login user, return JWT tokens         |
-| GET    | `/api/auth/me`       | Auth   | Get current authenticated user        |
+| Method | Endpoint                  | Access | Description                                      |
+| ------ | ------------------------- | ------ | ------------------------------------------------ |
+| POST   | `/api/auth/register`      | Public | Register new user (customer/provider)            |
+| POST   | `/api/auth/login`         | Public | Log in and receive access and refresh tokens     |
+| POST   | `/api/auth/refresh-token` | Public | Refresh the access token using the refresh cookie |
+| GET    | `/api/auth/me`            | Auth   | Get current authenticated user                   |
 
 ---
 
@@ -175,10 +185,13 @@ npm start
 
 ### 🏋️ Gear (Public)
 
-| Method | Endpoint        | Access | Description                                           |
-| ------ | --------------- | ------ | ----------------------------------------------------- |
-| GET    | `/api/gear`     | Public | Get all gear (filter: category, price, brand, search) |
-| GET    | `/api/gear/:id` | Public | Get single gear details with specifications           |
+| Method | Endpoint               | Access | Description                                                    |
+| ------ | ---------------------- | ------ | -------------------------------------------------------------- |
+| GET    | `/api/gear`            | Public | Get all gear; supports filtering and searching                |
+| GET    | `/api/gear/meta/stats` | Public | Get platform totals for gear, customers, providers, categories |
+| GET    | `/api/gear/:id`        | Public | Get single gear details with specifications                    |
+
+Supported query parameters for `GET /api/gear`: `searchTerm`, `category`, `brand`, `minPrice`, `maxPrice`, and `availability` (`true` or `false`).
 
 ---
 
@@ -199,7 +212,7 @@ npm start
 | ------ | -------------------------- | -------- | -------------------------------------------------- |
 | GET    | `/api/provider/orders`     | Provider | Get provider's incoming rental orders              |
 | GET    | `/api/provider/orders/:id` | Provider | Get single order details                           |
-| PATCH  | `/api/provider/orders/:id` | Provider | Update order status (confirm, picked_up, returned) |
+| PATCH  | `/api/provider/orders/:id` | Provider | Set status to `CONFIRMED`, `PICKED_UP`, or `RETURNED` |
 
 ---
 
@@ -227,10 +240,11 @@ npm start
 
 ### ⭐ Reviews
 
-| Method | Endpoint       | Access   | Description                            |
-| ------ | -------------- | -------- | -------------------------------------- |
-| POST   | `/api/reviews` | Customer | Create review (after gear is returned) |
-| GET    | `/api/reviews` | Customer | Get customer's reviews                 |
+| Method | Endpoint              | Access   | Description                                  |
+| ------ | --------------------- | -------- | -------------------------------------------- |
+| GET    | `/api/reviews/public` | Public   | Get the 12 most recent public reviews        |
+| POST   | `/api/reviews`        | Customer | Create review after a rental is returned     |
+| GET    | `/api/reviews`        | Customer | Get the authenticated customer's own reviews |
 
 ---
 
@@ -260,13 +274,14 @@ The backend utilizes a global error handler to provide consistent and descriptiv
 }
 ```
 
-*Note: Prisma-specific errors (e.g., Unique constraint failed) return appropriate HTTP status codes (like `400 Bad Request` or `404 Not Found`) and attach extra metadata.*
+_Note: Prisma-specific errors (e.g., Unique constraint failed) return appropriate HTTP status codes (like `400 Bad Request` or `404 Not Found`) and attach extra metadata._
 
 ---
 
 ## 🔐 Authentication
 
 The application uses **JWT (JSON Web Tokens)** for stateless authentication.
+
 1. Users register or login using their credentials.
 2. The server hashes passwords using `bcryptjs`.
 3. Upon successful login, an Access Token and a Refresh Token are generated.
@@ -277,6 +292,7 @@ The application uses **JWT (JSON Web Tokens)** for stateless authentication.
 ## 🛡️ Authorization
 
 Access is strictly governed using a Role-Based Access Control (RBAC) system:
+
 - **CUSTOMER**: Can browse gear, place rental orders, leave reviews, and view their own history.
 - **PROVIDER**: Can add, update, and delete their own gear listings, as well as manage incoming orders for their gear.
 - **ADMIN**: Has complete oversight, capable of managing all users, viewing all gear, and auditing all rentals.
@@ -286,6 +302,7 @@ Access is strictly governed using a Role-Based Access Control (RBAC) system:
 ## 🗄️ Database
 
 The database is built on **PostgreSQL** and managed via **Prisma ORM**. Key entities include:
+
 - `User`: Manages authentication, roles, and profiles.
 - `Profile`: Extended user details.
 - `Category`: Categorization of gear items.
@@ -298,7 +315,8 @@ The database is built on **PostgreSQL** and managed via **Prisma ORM**. Key enti
 
 ## 🚀 Deployment
 
-The backend is configured as a standard Node.js application, making it easy to deploy on modern cloud platforms such as **Vercel, Render, Heroku, or AWS**. 
+The backend is configured as a standard Node.js application, making it easy to deploy on modern cloud platforms such as **Vercel, Render, Heroku, or AWS**.
+
 1. Ensure the PostgreSQL database is externally accessible.
 2. Set all Environment Variables in the hosting dashboard.
 3. The build process runs `npm run build` which safely executes `prisma generate && tsc`.
