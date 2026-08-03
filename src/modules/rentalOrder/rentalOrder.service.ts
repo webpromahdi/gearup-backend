@@ -284,13 +284,32 @@ const updateOrderStatusInDB = async (
     );
   }
 
-  const updated = await prisma.rentalOrder.update({
-    where: { id },
-    data: { status },
-    include: {
-      gearItem: true,
-      customer: { omit: { password: true } },
-    },
+  // If the status is already what they are trying to set, just return
+  if (order.status === status) {
+    return order;
+  }
+
+  const updated = await prisma.$transaction(async (tx) => {
+    const updatedOrder = await tx.rentalOrder.update({
+      where: { id },
+      data: { status },
+      include: {
+        gearItem: true,
+        customer: { omit: { password: true } },
+      },
+    });
+
+    if (status === "RETURNED" && order.status !== "RETURNED") {
+      await tx.gearItem.update({
+        where: { id: order.gearItemId },
+        data: {
+          stock: { increment: order.quantity },
+          availability: true, // Returning an item always makes it available
+        },
+      });
+    }
+
+    return updatedOrder;
   });
 
   return updated;

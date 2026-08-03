@@ -133,6 +133,21 @@ const handleCheckoutSessionCompleted = async (
   }
 
   await prisma.$transaction(async (tx) => {
+    const rentalOrder = await tx.rentalOrder.findUnique({
+      where: { id: rentalOrderId },
+    });
+
+    if (!rentalOrder) {
+      throw new AppError(
+        httpStatus.NOT_FOUND,
+        "Rental order not found during webhook processing",
+      );
+    }
+
+    if (rentalOrder.status === "PAID") {
+      return;
+    }
+
     const payment = await tx.payment.upsert({
       where: { transactionId: session.id },
       create: {
@@ -151,16 +166,30 @@ const handleCheckoutSessionCompleted = async (
       },
     });
 
-    const rentalOrderUpdate = await tx.rentalOrder.updateMany({
-      where: { id: rentalOrderId, customerId },
+    const rentalOrderUpdate = await tx.rentalOrder.update({
+      where: { id: rentalOrderId },
       data: { status: "PAID" },
     });
+
+    const updatedGear = await tx.gearItem.update({
+      where: { id: rentalOrder.gearItemId },
+      data: {
+        stock: { decrement: rentalOrder.quantity },
+      },
+    });
+
+    if (updatedGear.stock <= 0) {
+      await tx.gearItem.update({
+        where: { id: rentalOrder.gearItemId },
+        data: { availability: false },
+      });
+    }
 
     console.log("Stripe checkout completed:", {
       sessionId: session.id,
       rentalOrderId,
       paymentId: payment.id,
-      rentalOrderRowsUpdated: rentalOrderUpdate.count,
+      rentalOrderStatus: rentalOrderUpdate.status,
     });
   });
 };
