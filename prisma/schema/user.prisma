@@ -1,20 +1,24 @@
 model User {
-  id           String     @id @default(uuid())
-  name         String
-  email        String     @unique
-  password     String
-  role         Role
-  status       UserStatus @default(ACTIVE)
-  
-  profile  Profile?
+  id                 String       @id @default(uuid())
+  name               String
+  email              String       @unique
+  password           String?
+  googleId           String?      @unique
+  authProvider       AuthProvider @default(CREDENTIAL)
+  emailVerified      Boolean      @default(false)
+  role               Role
+  status             UserStatus   @default(ACTIVE)
+  needPasswordChange Boolean      @default(false)
 
-  gearItems GearItem[]
+  profile Profile?
+
+  gearItems    GearItem[]
   rentalOrders RentalOrder[]
-  reviews       Review[]
-  payments      Payment[]
-  
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  reviews      Review[]
+  payments     Payment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
@@ -28,4 +32,9 @@ enum Role {
 enum UserStatus {
   ACTIVE
   SUSPENDED
+}
+
+enum AuthProvider {
+  GOOGLE
+  CREDENTIAL
 }

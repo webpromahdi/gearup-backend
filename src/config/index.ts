@@ -7,7 +7,7 @@ export default {
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
   direct_url: process.env.DIRECT_URL,
-  app_url: process.env.APP_URL,
+  app_url: process.env.APP_URL || "http://localhost:3000",
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   jwt_access_secret: process.env.JWT_ACCESS_SECRET!,
   jwt_refresh_secret: process.env.JWT_REFRESH_SECRET!,
@@ -16,4 +16,7 @@ export default {
   stripe_secret_key: process.env.STRIPE_SECRET_KEY!,
   stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET!,
   stripe_currency: process.env.STRIPE_CURRENCY || "bdt",
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID!,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET!,
+  GOOGLE_CLIENT_CALLBACK_URL: process.env.GOOGLE_CLIENT_CALLBACK_URL!,
 };

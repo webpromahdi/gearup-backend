@@ -7,6 +7,7 @@ import { jwtUtils } from "../../utils/jwt.js";
 import { JwtPayload, SignOptions } from "jsonwebtoken";
 import { AppError } from "../../utils/appError.js";
 import { validateFields } from "../../utils/validateFields.js";
+import { AuthProvider } from "../../../generated/prisma/enums.js";
 
 const registerUserIntoDB = async (payload: TRegisterPayload) => {
   const { name, email, password, role, phone, address, profileImage, bio } =
@@ -43,6 +44,7 @@ const registerUserIntoDB = async (payload: TRegisterPayload) => {
       email,
       password: hashedPassword,
       role,
+      authProvider: AuthProvider.CREDENTIAL,
       profile: {
         create: {
           phone,
@@ -70,14 +72,7 @@ const registerUserIntoDB = async (payload: TRegisterPayload) => {
   return user;
 };
 
-const loginUser = async (payload: TLoginUser) => {
-  const { email, password } = payload;
-
-  validateFields(payload, ["email", "password"]);
-
-  const user = await prisma.user.findUnique({
-    where: { email },
-  });
+const loginUser = async (user: any) => {
 
   if (!user) {
     throw new AppError(httpStatus.UNAUTHORIZED, "Invalid email or password");
@@ -88,11 +83,6 @@ const loginUser = async (payload: TLoginUser) => {
       httpStatus.FORBIDDEN,
       "Your account is suspended. Please contact support.",
     );
-  }
-
-  const isPasswordMatched = await bcrypt.compare(password, user.password);
-  if (!isPasswordMatched) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid email or password");
   }
 
   const jwtPayload = {

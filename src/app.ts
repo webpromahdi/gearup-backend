@@ -6,6 +6,7 @@ import config from "./config/index.js";
 import router from "./routes/index.js";
 import { notFound } from "./middlewares/notFound.js";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler.js";
+import passport from "passport";
 
 const app: Application = express();
 
@@ -21,6 +22,7 @@ app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(passport.initialize());
 
 app.use("/api", router);
 

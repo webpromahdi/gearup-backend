@@ -10,13 +10,11 @@ import { AppError } from "../utils/appError.js";
 
 declare global {
   namespace Express {
-    interface Request {
-      user?: {
-        id: string;
-        name: string;
-        email: string;
-        role: Role;
-      };
+    interface User {
+      id: string;
+      name: string;
+      email: string;
+      role: Role;
     }
   }
 }
