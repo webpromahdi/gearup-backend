@@ -114,20 +114,7 @@ const googleLoginCallback = catchAsync(
        
         const { accessToken, refreshToken } = await authService.loginUser(user);
        
-        res.cookie("accessToken", accessToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "none",
-          maxAge: 1000 * 60 * 60 * 24,
-        });
-        res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "none",
-          maxAge: 1000 * 60 * 60 * 24 * 7,
-        });
-
-        res.redirect(`${config.app_url}`);
+        res.redirect(`${config.app_url}/api/auth/google?accessToken=${accessToken}&refreshToken=${refreshToken}`);
       } catch (error) {
         next(error);
       }
