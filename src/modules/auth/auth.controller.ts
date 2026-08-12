@@ -34,13 +34,13 @@ const loginUser = catchAsync(
         
         res.cookie("accessToken", accessToken, {
           httpOnly: true,
-          secure: false, 
+          secure: process.env.NODE_ENV === "production",
           sameSite: "none",
           maxAge: 1000 * 60 * 60 * 24,
         });
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          secure: false, 
+          secure: process.env.NODE_ENV === "production",
           sameSite: "none",
           maxAge: 1000 * 60 * 60 * 24 * 7,
         });
@@ -66,7 +66,7 @@ const refreshToken = catchAsync(
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24,
     });
@@ -116,13 +116,13 @@ const googleLoginCallback = catchAsync(
        
         res.cookie("accessToken", accessToken, {
           httpOnly: true,
-          secure: false, 
+          secure: process.env.NODE_ENV === "production",
           sameSite: "none",
           maxAge: 1000 * 60 * 60 * 24,
         });
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          secure: false, 
+          secure: process.env.NODE_ENV === "production",
           sameSite: "none",
           maxAge: 1000 * 60 * 60 * 24 * 7,
         });
