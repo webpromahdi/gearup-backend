@@ -1,4 +1,4 @@
-# GearUp 🏋️
+# RentRover 🏋️
 
 **"Rent Sports & Outdoor Gear Instantly"**
 
@@ -9,7 +9,7 @@
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=flat&logo=Prisma&logoColor=white)
 ![Stripe](https://img.shields.io/badge/Stripe-008CDD?style=flat&logo=Stripe&logoColor=white)
 
-A robust backend service for GearUp, a platform connecting outdoor enthusiasts to rent sports and outdoor gear. It provides secure authentication, comprehensive role-based access control, provider inventory management, rental order processing, and Stripe integration for payments.
+A robust backend service for RentRover, a platform connecting outdoor enthusiasts to rent sports and outdoor gear. It provides secure authentication, comprehensive role-based access control, provider inventory management, rental order processing, and Stripe integration for payments.
 
 ---
 
@@ -75,8 +75,8 @@ src/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/webpromahdi/gearup-backend.git
-cd gearup-backend
+git clone https://github.com/webpromahdi/rentrover-backend.git
+cd rentrover-backend
 ```
 
 ### 2. Install dependencies

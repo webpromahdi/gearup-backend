@@ -82,7 +82,7 @@ const createCheckoutSessionIntoDB = async (
           unit_amount: stripeAmount,
           product_data: {
             name: rentalOrder.gearItem.name,
-            description: `GearUp rental order ${rentalOrder.id}`,
+            description: `RentRover rental order ${rentalOrder.id}`,
             metadata: {
               rentalOrderId: rentalOrder.id,
               customerId,
@@ -101,7 +101,7 @@ const createCheckoutSessionIntoDB = async (
         rentalOrderId: rentalOrder.id,
         customerId,
       },
-      description: `GearUp rental payment for ${rentalOrder.gearItem.name}`,
+      description: `RentRover rental payment for ${rentalOrder.gearItem.name}`,
     },
   });
 
