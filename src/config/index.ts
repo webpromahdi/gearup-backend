@@ -15,7 +15,7 @@ export default {
   jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN!,
   stripe_secret_key: process.env.STRIPE_SECRET_KEY!,
   stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET!,
-  stripe_currency: process.env.STRIPE_CURRENCY || "bdt",
+  stripe_currency: process.env.STRIPE_CURRENCY || "usd",
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID!,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET!,
   GOOGLE_CLIENT_CALLBACK_URL: process.env.GOOGLE_CLIENT_CALLBACK_URL!,

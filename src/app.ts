@@ -7,7 +7,7 @@ import router from "./routes/index.js";
 import { notFound } from "./middlewares/notFound.js";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler.js";
 import passport from "passport";
-import "./config/passport.js"; // This executes the passport configuration
+import "./config/passport.js"; 
 
 
 const app: Application = express();
